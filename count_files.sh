@@ -1,13 +1,23 @@
 #!/bin/bash
 
-# Nom du dossier
-read dossier
+# Demander à l'utilisateur le chemin du répertoire
+echo "Entrez le chemin du répertoire :"
+read repertoire
 
-# Vérifie si le dossier existe
-if [ -d "$dossier" ]; then
-    # Compte uniquement les fichiers normaux (sans les dossiers)
-    nb_fichiers=$(ls -p "$dossier" | grep -v / | wc -l)
-    echo "Le dossier $dossier contient $nb_fichiers fichier(s)"
+# Vérifier si le répertoire existe
+if [ -d "$repertoire" ]; then
+    echo "Contenu du répertoire : $repertoire"
+
+    # Lister uniquement les fichiers (pas les dossiers), en boucle
+    compteur=0
+    for element in "$repertoire"/*; do
+        if [ -f "$element" ]; then
+            compteur=$((compteur + 1))
+        fi
+    done
+
+    echo "Nombre de fichiers : $compteur"
 else
-    echo "Le dossier '$dossier' n'existe pas."
+    echo "Le répertoire n'existe pas."
 fi
+
